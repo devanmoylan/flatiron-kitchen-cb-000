@@ -1,6 +1,6 @@
 class IngredientsController < ApplicationController
   before_action :ingredient_params, only: [:create, :update]
-  before_action :set_ingredient, only: [:show, :edit]
+  before_action :set_ingredient, only: [:show, :edit, :update]
 
   def new
     @ingredient = Ingredient.new
@@ -9,7 +9,6 @@ class IngredientsController < ApplicationController
   def create
     @ingredient = Ingredient.new(ingredient_params)
     if @ingredient.save
-      byebug
       redirect_to ingredient_path(@ingredient)
     else
       render :new
@@ -23,6 +22,11 @@ class IngredientsController < ApplicationController
   end
 
   def update
+    if @ingredient.update(ingredient_params)
+      redirect_to ingredient_path(@ingredient)
+    else
+      render edit
+    end
   end
 
   private
